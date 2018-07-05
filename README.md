@@ -12,6 +12,10 @@ A tiny Blockchain implementation in python, currently supporting
 
 ## Quick Start
 
+The node was implemented with Flask server, and can be launched via command:
+`$ python app.py`
+
+
 ```
 $ curl localhost:8000/chain
 [{"index": "0", "data": "{'transactions': None, 'proof-of-work': 9}", "hash": "76750048d1e6e679884cba9972785296bcb999c9de685c17f14e52e94b19bdbf", "timestamp": "2018-07-05 16:10:08.239959"}, {"index": "1", "data": "{'transactions': [{'to': 'q3nf394hjg-random-miner-address-34nf3i4nflkn3oi', 'amount': 1, 'from': 'network'}], 'proof-of-work': 18}", "hash": "a3a58eba0451bf94561e62a977375b78b3b6c7cf88abcc9a14d7755ec8a35cb3", "timestamp": "2018-07-05 16:10:11.593699"}]
