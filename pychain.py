@@ -54,3 +54,8 @@ class Blockchain(object):
       chain_to_send.append(b)
 
     return json.dumps(chain_to_send)
+
+
+  @property
+  def last_block(self):
+    return self.chain[-1]
