@@ -8,10 +8,8 @@ Created on June 26 09:48:12 2018
 """
 
 
-from flask import Flask
-from flask import request
+from flask import Flask, jsonify, request
 import json
-import requests
 import datetime as date
 from pprint import pprint
 
@@ -45,13 +43,19 @@ def transaction():
 
 @app.route('/chain', methods=['GET'])
 def get_blocks():
-  return node.blockchain.get_blocks()
+  chain = node.blockchain.get_blocks()
+  response = {
+    'chain': chain,
+    'length': len(chain),
+  }
+  return jsonify(response), 200
 
 @app.route('/mine', methods = ['GET'])
 def mine():
   mined_block = node.mine()
   # Let the client know we mined a block
-  return str(mined_block)
+  response = mined_block.json()
+  return jsonify(response), 200
 
 if __name__ == '__main__':
   app.run(debug=True, port=8000)

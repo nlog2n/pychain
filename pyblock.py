@@ -26,11 +26,15 @@ class Block():
     sha.update(str(self.index) + str(self.timestamp) + str(self.data) + str(self.previous_hash))
     return sha.hexdigest()
 
-  def __str__(self):
-    return json.dumps({
+  def json(self):
+    return {
       "index": self.index,
       "timestamp": str(self.timestamp),
       "data": self.data,
       "previous_hash": self.previous_hash,
       "hash": self.hash
-  })
+    }
+
+
+  def __str__(self):
+    return json.dumps(self.json())

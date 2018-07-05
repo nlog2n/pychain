@@ -40,20 +40,10 @@ class Blockchain(object):
     # so we can send them as json objects later
     for i in range(len(self.chain)):
       block = self.chain[i]
-      block_index = str(block.index)
-      block_timestamp = str(block.timestamp)
-      block_data = str(block.data)
-      block_hash = block.hash
-
-      b = {
-        "index": block_index,
-        "timestamp": block_timestamp,
-        "data": block_data,
-        "hash": block_hash
-      }
+      b = block.json()
       chain_to_send.append(b)
 
-    return json.dumps(chain_to_send)
+    return chain_to_send
 
 
   @property
