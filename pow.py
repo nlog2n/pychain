@@ -21,10 +21,9 @@ def valid_proof(last_proof, proof):
     :param proof: <int> Current Proof
     :return: <bool> True if correct, False if not.
     """
-    guess =  '{0}{1}'.format(last_proof, proof).encode()
+    guess = '{0}{1}'.format(last_proof, proof).encode()
     guess_hash = hashlib.sha256(guess).hexdigest()
     return guess_hash[:4] == "0000"
-
 
 
 def proof_of_work(last_proof):
