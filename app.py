@@ -15,6 +15,7 @@ from pprint import pprint
 from pyblock import Block
 from pychain import Blockchain
 from pynode import Node
+import wallet
 
 app = Flask(__name__)
 
@@ -84,6 +85,11 @@ def register_nodes():
     }
     return jsonify(response), 201
 
+
+@app.route('/wallet/new', methods=['GET'])
+def new_wallet():
+    response = wallet.new_wallet()
+    return jsonify(response), 200
 
 if __name__ == '__main__':
     app.run(debug=True, port=8000)
