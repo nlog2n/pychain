@@ -60,5 +60,30 @@ def mine():
     return jsonify(response), 200
 
 
+@app.route('/nodes/', methods=['GET'])
+def get_nodes():
+    response = {
+        "nodes": node.peer_nodes
+    }
+    return jsonify(response), 200
+
+
+@app.route('/nodes/register', methods=['POST'])
+def register_nodes():
+    values = request.get_json()
+    neighbors = values.get('nodes')
+    if neighbors is None:
+        return "Error: Please supply a valid list of nodes", 400
+
+    for n in neighbors:
+        node.register_nodes(n)
+
+    response = {
+        'message': 'New neighbors have been added',
+        'nodes': node.peer_nodes,
+    }
+    return jsonify(response), 201
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=8000)

@@ -97,3 +97,27 @@ Transaction submission successful
     "length": 2
 }
 ```
+
+## Add neighbors
+
+
+`$ curl "localhost:8000/nodes/register"      -H "Content-Type: application/json"      -d '{"nodes": ["http://localhost:5000"]}'`
+
+```
+{
+    "message": "New neighbors have been added",
+    "nodes": [
+        "http://localhost:5000"
+    ]
+}
+```
+
+`$ curl localhost:8000/nodes`
+
+```bash
+{
+    "nodes": [
+        "http://localhost:5000"
+    ]
+}
+```

@@ -37,6 +37,9 @@ class Node:
         # with them
         self.peer_nodes = []
 
+    def register_nodes(self, neighbors):
+        self.peer_nodes.append(neighbors)
+
     def consensus(self):
         # Get the blockchains of every
         # other node
