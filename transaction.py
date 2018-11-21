@@ -10,6 +10,7 @@ Created on Fri July 6 10:48:12 2018
 from collections import OrderedDict
 
 import binascii
+import json
 
 # require package: pycrypto
 
@@ -20,10 +21,12 @@ from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
 
 class Transaction:
+    """
+        定义Transaction, 包含发送方地址，接受方地址，和金额
+    """
 
-    def __init__(self, sender_address, sender_private_key, recipient_address, value):
+    def __init__(self, sender_address, recipient_address, value):
         self.sender_address = sender_address
-        self.sender_private_key = sender_private_key
         self.recipient_address = recipient_address
         self.value = value
 
@@ -35,11 +38,21 @@ class Transaction:
                             'to': self.recipient_address,
                             'amount': self.value})
 
-    def sign_transaction(self):
+    def json(self):
+        return {
+            'from': self.sender_address,
+            'to': self.recipient_address,
+            'amount': self.value
+        }
+
+    def __str__(self):
+        return json.dumps(self.json())
+
+    def sign_transaction(self, sender_private_key):
         """
         Sign transaction with private key
         """
-        private_key = RSA.importKey(binascii.unhexlify(self.sender_private_key))
+        private_key = RSA.importKey(binascii.unhexlify(sender_private_key))
         signer = PKCS1_v1_5.new(private_key)
         h = SHA.new(str(self.to_dict()).encode('utf8'))
         return binascii.hexlify(signer.sign(h)).decode('ascii')

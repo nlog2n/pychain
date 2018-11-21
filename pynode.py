@@ -93,11 +93,7 @@ class Node:
         new_block_timestamp = this_timestamp = date.datetime.now()
         last_block_hash = last_block.hash
 
-        # Empty transaction list
-        self.this_nodes_transactions[:] = []
-
-        # Now create the
-        # new block!
+        # 现在创建一个新的block
         mined_block = Block(
             new_block_index,
             new_block_timestamp,
@@ -105,5 +101,8 @@ class Node:
             last_block_hash
         )
         self.blockchain.chain.append(mined_block)
+
+        # 既然将本地所有transactions添加到block, 让我们清空本地transaction list
+        self.this_nodes_transactions[:] = []
 
         return mined_block

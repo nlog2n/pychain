@@ -14,6 +14,7 @@ from pprint import pprint
 
 from pyblock import Block
 from pychain import Blockchain
+from transaction import Transaction
 from pynode import Node
 import wallet
 
@@ -24,25 +25,25 @@ miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
 
 node = Node(miner_address)
 
-
+# 创建一个交易并添加到区块
 @app.route('/transaction/new', methods=['POST'])
 def transaction():
-    # On each new POST request,
-    # we extract the transaction data
-    new_txion = request.get_json()
+    # On each new POST request, we extract the transaction data
+    values = request.get_json()
+    required = ['from', 'to', 'amount']
+    if not all(k in values for k in required):
+        return 'Missing values', 400
+
     # Then we add the transaction to our list
-    node.add_transaction(new_txion)
+    #new_txion = Transaction(values['from'], values['to'], values['amount'])
+    new_txion = values
+    node.add_transaction(new_txion) # add json directly
 
-    # Because the transaction was successfully
-    # submitted, we log it to our console
-    print "New transaction"
-    print "FROM: {}".format(new_txion['from'].encode('ascii', 'replace'))
-    print "TO: {}".format(new_txion['to'].encode('ascii', 'replace'))
-    print "AMOUNT: {}\n".format(new_txion['amount'])
-    # Then we let the client know it worked out
-    return "Transaction submission successful\n"
+    response = {'message': 'Transaction submitted successfully'}
+    return jsonify(response), 200
 
 
+# 返回整个区块链. 读取自己节点的 chain, 暴露给其他节点用以更新
 @app.route('/chain', methods=['GET'])
 def get_blocks():
     chain = node.blockchain.get_blocks()
@@ -53,6 +54,7 @@ def get_blocks():
     return jsonify(response), 200
 
 
+# 告诉服务器去挖掘新的一个区块
 @app.route('/mine', methods=['GET'])
 def mine():
     mined_block = node.mine()
@@ -91,5 +93,11 @@ def new_wallet():
     response = wallet.new_wallet()
     return jsonify(response), 200
 
-if __name__ == '__main__':
+
+@app.route('/', methods = ['GET'])
+def hello():
+    response = {'message': 'welcome to pychain!'}
+    return jsonify(response), 200
+
+if __name__=='__main__':
     app.run(debug=True, port=8000)

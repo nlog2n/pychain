@@ -16,6 +16,9 @@ from pyblock import Block
 
 
 class Blockchain(object):
+    """
+        Blockchain 类负责管理链式数据，它会添加新的区块到链式数据, 查询所有区块，最后一个区块
+    """
 
     def __init__(self):
         self.chain = []

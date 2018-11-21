@@ -14,10 +14,14 @@ import datetime as date
 
 # Define block
 class Block():
+    """
+        定义区块链中每一个区块
+        每个块都有一个 索引，一个 时间戳（Unix时间戳），一个事务列表， 一个 校验(稍后详述) 和 前一个块的散列 。
+    """
     def __init__(self, index, timestamp, data, previous_hash):
         self.index = index
         self.timestamp = timestamp
-        self.data = data
+        self.data = data # 包含 transactions, proof-of-work
         self.previous_hash = previous_hash
         self.hash = self.hash_block()
 
