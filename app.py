@@ -7,6 +7,7 @@ Created on June 26 09:48:12 2018
   Flask server
 """
 
+import os
 from flask import Flask, jsonify, request
 import json
 import datetime as date
