@@ -19,22 +19,20 @@ import pow
 
 class Node:
 
-    def __init__(self, miner_address):
+    def __init__(self, miner_address=None):
         # This node's blockchain copy
         self.blockchain = Blockchain()
 
-        self.miner_address = miner_address
         # A variable to deciding if we're mining or not
         self.mining = True
+        self.miner_address = miner_address
 
         # Store the transactions that
         # this node has in a list
         self.this_nodes_transactions = []
 
-        # Store the url data of every
-        # other node in the network
-        # so that we can communicate
-        # with them
+        # Store the url data of every other node in the network
+        # so that we can communicate with them
         self.peer_nodes = []
 
     def register_nodes(self, neighbors):

@@ -63,6 +63,7 @@ def mine():
     return jsonify(response), 200
 
 
+# 返回所有的邻居节点
 @app.route('/nodes/', methods=['GET'])
 def get_nodes():
     response = {
@@ -70,7 +71,7 @@ def get_nodes():
     }
     return jsonify(response), 200
 
-
+# 添加一个新的邻居节点, 接收 URL 形式的新节点列表
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
     values = request.get_json()
@@ -100,4 +101,14 @@ def hello():
     return jsonify(response), 200
 
 if __name__=='__main__':
-    app.run(debug=True, port=8000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
+
+    # from argparse import ArgumentParser
+    #
+    # parser = ArgumentParser()
+    # parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
+    # args = parser.parse_args()
+    # port = args.port
+    #
+    # app.run(host='127.0.0.1', port=port, debug=True)
