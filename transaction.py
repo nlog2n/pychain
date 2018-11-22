@@ -25,9 +25,9 @@ class Transaction:
         定义Transaction, 包含发送方地址，接受方地址，和金额
     """
 
-    def __init__(self, sender_address, recipient_address, value):
+    def __init__(self, sender_address, receiver_address, value):
         self.sender_address = sender_address
-        self.recipient_address = recipient_address
+        self.receiver_address = receiver_address
         self.value = value
 
     def __getattr__(self, attr):
@@ -35,13 +35,13 @@ class Transaction:
 
     def to_dict(self):
         return OrderedDict({'from': self.sender_address,
-                            'to': self.recipient_address,
+                            'to': self.receiver_address,
                             'amount': self.value})
 
     def json(self):
         return {
             'from': self.sender_address,
-            'to': self.recipient_address,
+            'to': self.receiver_address,
             'amount': self.value
         }
 

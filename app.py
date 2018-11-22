@@ -8,10 +8,12 @@ Created on June 26 09:48:12 2018
 """
 
 import os
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
+from flask_cors import CORS
 import json
 import datetime as date
 from pprint import pprint
+
 
 from pyblock import Block
 from pychain import Blockchain
@@ -20,10 +22,11 @@ from pynode import Node
 import wallet
 
 app = Flask(__name__)
+CORS(app)
 
+# 将这个flask app作为一个区块链节点
 # A completely random address of the owner of this node
-miner_address = "q3nf394hjg-random-miner-address-34nf3i4nflkn3oi"
-
+miner_address = "node-as-miner-address-nlog2n"
 node = Node(miner_address)
 
 # 创建一个交易并添加到区块
@@ -42,6 +45,15 @@ def transaction():
 
     response = {'message': 'Transaction submitted successfully'}
     return jsonify(response), 200
+
+# 显示该节点上那些等待加到区块的交易
+@app.route('/transactions/get', methods=['GET'])
+def get_transactions():
+    #Get transactions from transactions pool of the node
+    transactions = node.get_transactions()
+    response = {'transactions': transactions}
+    return jsonify(response), 200
+
 
 
 # 返回整个区块链. 读取自己节点的 chain, 暴露给其他节点用以更新
@@ -76,7 +88,12 @@ def get_nodes():
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
     values = request.get_json()
-    neighbors = values.get('nodes')
+    if values is None:
+        values = request.form
+        neighbors = values.get('nodes').replace(" ", "").split(',')
+    else:
+        neighbors = values.get('nodes')
+
     if neighbors is None:
         return "Error: Please supply a valid list of nodes", 400
 
@@ -89,6 +106,25 @@ def register_nodes():
     }
     return jsonify(response), 201
 
+@app.route('/nodes/resolve', methods=['GET'])
+def consensus():
+    replaced = node.consensus()
+
+    chain = node.blockchain.get_blocks()
+
+    if replaced:
+        response = {
+            'message': 'Our chain was replaced',
+            'new_chain': chain
+        }
+    else:
+        response = {
+            'message': 'Our chain is authoritative',
+            'chain': chain
+        }
+    return jsonify(response), 200
+
+
 
 @app.route('/wallet/new', methods=['GET'])
 def new_wallet():
@@ -96,14 +132,24 @@ def new_wallet():
     return jsonify(response), 200
 
 
-@app.route('/', methods = ['GET'])
-def hello():
-    response = {'message': 'welcome to pychain!'}
-    return jsonify(response), 200
+# @app.route('/', methods = ['GET'])
+# def hello():
+#     response = {'message': 'welcome to pychain!'}
+#     return jsonify(response), 200
+
+@app.route('/')
+def index():
+    return render_template('./index.html')
+
+@app.route('/configure')
+def configure():
+    return render_template('./configure.html')
+
+
 
 if __name__=='__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
 
     # from argparse import ArgumentParser
     #

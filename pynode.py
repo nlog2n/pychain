@@ -39,8 +39,13 @@ class Node:
         self.peer_nodes.append(neighbors)
 
     def consensus(self):
-        # Get the blockchains of every
-        # other node
+        """
+        Resolve conflicts between blockchain's nodes
+        by replacing our chain with the longest one in the network.
+        """
+        changed = False
+
+        # Get the blockchains of every other node
         other_chains = []
         for node_url in self.peer_nodes:
             # Get their chains using a GET request
@@ -50,21 +55,27 @@ class Node:
             # Add it to our list
             other_chains.append(block)
 
-        # If our chain isn't longest,
-        # then we store the longest chain
+        # If our chain isn't longest, then we store the longest chain
         longest_chain = self.blockchain.chain
         for chain in other_chains:
             if len(longest_chain) < len(chain):
+                ## TODO: 这里还需要validate other chain data
                 longest_chain = chain
+                changed = True
+
         # If the longest chain isn't ours,
         # then we stop mining and set
         # our chain to the longest one
         self.blockchain.chain = longest_chain
+        return changed
 
     def add_transaction(self, new_transaction):
         # add the transaction to our list
         self.this_nodes_transactions.append(new_transaction)
         return True
+
+    def get_transactions(self):
+        return self.this_nodes_transactions
 
     def mine(self):
         # Get the last proof of work
@@ -88,7 +99,7 @@ class Node:
             "transactions": list(self.this_nodes_transactions)
         }
         new_block_index = last_block.index + 1
-        new_block_timestamp = this_timestamp = date.datetime.now()
+        new_block_timestamp = date.datetime.now()
         last_block_hash = last_block.hash
 
         # 现在创建一个新的block
