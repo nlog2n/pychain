@@ -4,12 +4,13 @@
 ## Introduction
 
 A tiny Blockchain implementation in python, currently supporting 
- - new transaction
- - coin mining
- - proof of work
- - longest chain consensus
- - RestAPI access
-
+ - new transaction (money transfer) with RSA signature
+ - coin mining by Proof of Work (PoW)
+ - consensus by longest chain
+ - add peer nodes to network 
+ - Restful API access
+ - wallet generation using RSA Public/Private key encryption 
+ 
 ## Dependencies
 
 Python 2.7.15
@@ -22,6 +23,10 @@ The node was implemented with Flask server, and can be launched via command:
 `$ python app.py`
 
 You may start multiple nodes by specifying different ports.
+
+`$ python app.py -p 5001`
+
+`$ python app.py -p 5002`
 
 
 ## API Access
@@ -143,4 +148,4 @@ Transaction submission successful
 
 ## Deploy
 
-`https://pychain.herokuapp.com/`
+`baseUrl = https://pychain.herokuapp.com`
