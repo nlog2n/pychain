@@ -9,6 +9,8 @@ from flask_jwt_extended import (
 )
 
 
+#from model.transaction import Transaction
+
 apiTransaction = Blueprint('transaction', __name__, url_prefix='/pychain/api/v1/transaction')
 
 # 创建一个交易并添加到区块
@@ -18,12 +20,21 @@ apiTransaction = Blueprint('transaction', __name__, url_prefix='/pychain/api/v1/
 def transaction():
     # On each new POST request, we extract the transaction data
     values = request.get_json()
+    if values is None:
+        values = request.form
+
     required = ['from', 'to', 'amount']
     if not all(k in values for k in required):
         return 'Missing values', 400
 
+    # TODO: 新的交易必须提供签名或者发送者私钥（代为签名)
+    # xxx = ['signature', 'sender_private_key']
+    # if not any(k in values for k in xxx):
+    #     return 'transaction signature or sender_private_key must be provided', 400
+    #
+    # new_txion = Transaction(values['from'], values['to'], values['amount'])
+
     # Then we add the transaction to our list
-    #new_txion = Transaction(values['from'], values['to'], values['amount'])
     new_txion = values
     node = current_app.config["PYCHAIN_NODE"]
     node.add_transaction(new_txion) # add json directly
