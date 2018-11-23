@@ -105,7 +105,7 @@
       $(function(){
 
         $.ajax({
-          url: "/transactions/get",
+          url: "/pychain/api/v1/transaction",
           type: 'GET',
           success: function(response){
 
@@ -144,7 +144,7 @@
 
 
         $.ajax({
-          url: "/chain",
+          url: "/pychain/api/v1/transaction/chain",
           type: 'GET',
           success: function(response){
 
@@ -197,7 +197,7 @@
         $("#mine_button").click(function () {
 
           $.ajax({
-            url: "/mine",
+            url: "/pychain/api/v1/transaction/mine",
             type: "GET",
             success: function(response){
 
@@ -222,7 +222,7 @@
         $("#refresh_blockchain").click(function () {
 
           $.ajax({
-            url: "/nodes/resolve",
+            url: "/pychain/api/v1/node/consensus",
             type: "GET",
             success: function(response){
 

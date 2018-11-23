@@ -108,7 +108,7 @@
             //console.log($('#confirmation_transaction_form').serialize());
 
             $.ajax({
-              url: "/nodes/register",
+              url: "/pychain/api/v1/node/register",
               type: "POST",
               dataType : 'json',
               data: $('#node_form').serialize(),
@@ -128,7 +128,7 @@
 
 
         $.ajax({
-          url: "/nodes",
+          url: "/pychain/api/v1/node",
           type: 'GET',
           success: function(response){
 

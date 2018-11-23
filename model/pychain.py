@@ -7,12 +7,9 @@ Created on June 26 09:48:12 2018
   Chain structure
 """
 
-import json
-import hashlib as hasher
 import datetime as date
-from pprint import pprint
 
-from pyblock import Block
+from model.pyblock import Block
 
 
 class Blockchain(object):

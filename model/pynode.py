@@ -10,10 +10,9 @@ Created on June 26 09:48:12 2018
 import json
 import requests
 import datetime as date
-from pprint import pprint
 
-from pyblock import Block
-from pychain import Blockchain
+from model.pyblock import Block
+from model.pychain import Blockchain
 import pow
 
 
@@ -48,12 +47,16 @@ class Node:
         # Get the blockchains of every other node
         other_chains = []
         for node_url in self.peer_nodes:
-            # Get their chains using a GET request
-            block = requests.get(node_url + "/chain").content
-            # Convert the JSON object to a Python dictionary
-            block = json.loads(block)
-            # Add it to our list
-            other_chains.append(block)
+            try:
+                # Get their chains using a GET request
+                block = requests.get(node_url + "/pychain/api/v1/transaction/chain").content
+                # Convert the JSON object to a Python dictionary
+                block = json.loads(block)
+                # Add it to our list
+                other_chains.append(block)
+            except Exception as ex:
+                print "probing node failed: " + str(node_url)
+                # TODO: remove this node_url from my peer_nodes?
 
         # If our chain isn't longest, then we store the longest chain
         longest_chain = self.blockchain.chain

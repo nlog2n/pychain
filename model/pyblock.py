@@ -16,7 +16,7 @@ import datetime as date
 class Block():
     """
         定义区块链中每一个区块
-        每个块都有一个 索引，一个 时间戳（Unix时间戳），一个事务列表， 一个 校验(稍后详述) 和 前一个块的散列 。
+        每个块都有一个 索引，一个 时间戳（Unix时间戳），一个事务列表， 一个校验(稍后详述) 和 前一个块的散列 。
     """
     def __init__(self, index, timestamp, data, previous_hash):
         self.index = index
