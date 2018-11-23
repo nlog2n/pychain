@@ -50,12 +50,16 @@ def hello():
 
 
 if __name__=='__main__':
-    # port = int(os.environ.get('PORT', 5000))
-    # app.run(host='0.0.0.0', port=port, debug=True)
 
+    # 从命令行获取端口
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
+    parser.add_argument('-p', '--port', default=-1, type=int, help='port to listen on')
     args = parser.parse_args()
     port = args.port
-    app.run(host='127.0.0.1', port=port, debug=True)
+
+    # 如果命令行未声明，则从环境变量读取端口。缺省 5000
+    if port == -1:
+        port = int(os.environ.get('PORT', 5000))
+
+    app.run(host='0.0.0.0', port=port, debug=True)
