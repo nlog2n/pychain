@@ -21,6 +21,8 @@ The node was implemented with Flask server, and can be launched via command:
 
 `$ python app.py`
 
+You may start multiple nodes by specifying different ports.
+
 
 ## API Access
 

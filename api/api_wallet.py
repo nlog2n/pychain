@@ -4,7 +4,7 @@
 from flask import jsonify, Blueprint
 from flask_cors import cross_origin
 
-from model import wallet
+from model import pywallet
 
 apiWallet = Blueprint('wallet', __name__, url_prefix='/pychain/api/v1/wallet')
 
@@ -13,5 +13,5 @@ apiWallet = Blueprint('wallet', __name__, url_prefix='/pychain/api/v1/wallet')
 @cross_origin()
 #@jwt_required
 def new_wallet():
-    response = wallet.new_wallet()
+    response = pywallet.new_wallet()
     return jsonify(response), 200
