@@ -39,7 +39,15 @@ def transaction():
     node = current_app.config["PYCHAIN_NODE"]
     node.add_transaction(new_txion) # add json directly
 
-    response = {'message': 'Transaction submitted successfully'}
+    response = {
+        "transaction": {
+            "from": new_txion['from'],
+            "to": new_txion['to'],
+            "amount": new_txion['amount']
+        },
+        "signature": "to be computed",
+        'message': 'Transaction submitted successfully'
+    }
     return jsonify(response), 200
 
 # 显示该节点上那些等待加到区块的交易

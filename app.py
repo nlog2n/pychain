@@ -37,6 +37,13 @@ app.register_blueprint(apiWallet)
 def index():
     return render_template('./index.html')
 
+@app.route('/new/transaction')
+def new_transaction():
+    return render_template('./new_transaction.html')
+
+@app.route('/wallet')
+def wallet():
+    return render_template('./wallet.html')
 
 @app.route('/configure')
 def configure():
