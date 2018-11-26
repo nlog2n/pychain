@@ -17,7 +17,7 @@ apiTransaction = Blueprint('transaction', __name__, url_prefix='/pychain/api/v1/
 @apiTransaction.route('', methods=['POST'])
 @cross_origin()
 #@jwt_required
-def create_transaction():
+def submit_transaction():
     # On each new POST request, we extract the transaction data
     values = request.get_json()
     if values is None:

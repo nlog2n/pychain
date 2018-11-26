@@ -4,7 +4,8 @@
 Created on Fri July 6 10:48:12 2018
 @author: nlog2n
 
-  Wallet
+  Wallets generation using Public/Private key encryption (based on RSA algorithm)
+
 """
 
 import binascii
