@@ -220,7 +220,7 @@
           $("#generate_transaction").click(function () {
 
             $.ajax({
-              url: "/pychain/api/v1/transaction",
+              url: "/pychain/api/v1/transaction/sign",
               type: "POST",
               dataType : 'json',
               data: $('#transaction_form').serialize(),

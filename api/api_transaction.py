@@ -9,7 +9,7 @@ from flask_jwt_extended import (
 )
 
 
-#from model.transaction import Transaction
+from model.transaction import Transaction
 
 apiTransaction = Blueprint('transaction', __name__, url_prefix='/pychain/api/v1/transaction')
 
@@ -17,7 +17,7 @@ apiTransaction = Blueprint('transaction', __name__, url_prefix='/pychain/api/v1/
 @apiTransaction.route('', methods=['POST'])
 @cross_origin()
 #@jwt_required
-def transaction():
+def create_transaction():
     # On each new POST request, we extract the transaction data
     values = request.get_json()
     if values is None:
@@ -49,6 +49,33 @@ def transaction():
         'message': 'Transaction submitted successfully'
     }
     return jsonify(response), 200
+
+
+@apiTransaction.route('/sign', methods=['POST'])
+@cross_origin()
+#@jwt_required
+def sign_transaction():
+    """
+    提供对transaction的签名服务，需要发送方私钥
+    :return:
+    """
+    values = request.get_json()
+    if values is None:
+        values = request.form
+
+    required = ['from', 'to', 'amount', 'sender_private_key']
+    if not all(k in values for k in required):
+        return 'Missing values', 400
+
+    new_trx = Transaction(values['from'], values['to'], values['amount'])
+    signature = new_trx.sign_transaction(values['sender_private_key'])
+
+    response = {
+        "transaction": new_trx.json(),
+        "signature": signature
+    }
+    return jsonify(response), 200
+
 
 # 显示该节点上那些等待加到区块的交易
 @apiTransaction.route('', methods=['GET'])
