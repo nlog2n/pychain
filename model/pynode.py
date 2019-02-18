@@ -13,6 +13,7 @@ import datetime as date
 
 from model.pyblock import Block
 from model.pychain import Blockchain
+from model.pywallet import Wallet
 import pow
 
 
@@ -25,6 +26,9 @@ class Node:
         # A variable to deciding if we're mining or not
         self.mining = True
         self.miner_address = miner_address
+
+        # wallet for this node
+        self.this_node_wallet = Wallet()
 
         # Store the transactions that
         # this node has in a list

@@ -114,6 +114,20 @@
     <script>
 
       $(function(){
+
+        $.ajax({
+            url: '/pychain/api/v1/wallet',
+            type: 'GET',
+            success: function(response){
+              document.getElementById("private_key").innerHTML = response['private_key'];
+              document.getElementById("public_key").innerHTML = response['public_key'];
+              document.getElementById("warning").style.display = "block";
+            },
+            error: function(error){
+              console.log(error);
+            }
+        });
+
         $('input').click(function(){
 
           $.ajax({
@@ -130,7 +144,6 @@
           });
         });
       })
-
 
     </script>
 
