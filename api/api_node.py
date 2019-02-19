@@ -67,7 +67,7 @@ def consensus():
     node = current_app.config["PYCHAIN_NODE"]
     replaced = node.consensus()
 
-    chain = node.blockchain.get_blocks()
+    chain = node.blockchain.json()
     if replaced:
         response = {
             'message': 'Our chain was replaced',

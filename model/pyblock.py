@@ -39,5 +39,12 @@ class Block():
             "hash": self.hash
         }
 
+    def from_json(self, j):
+        self.index = j['index']
+        self.timestamp = j['timestamp']
+        self.data = j['data']
+        self.previous_hash = j['previous_hash']
+        self.hash = j['hash']
+
     def __str__(self):
         return json.dumps(self.json())

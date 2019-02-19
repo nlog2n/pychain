@@ -35,7 +35,7 @@ class Blockchain(object):
                      },
                      "0")
 
-    def get_blocks(self):
+    def json(self):
         chain_to_send = []
         # Convert our blocks into dictionaries
         # so we can send them as json objects later
@@ -45,6 +45,15 @@ class Blockchain(object):
             chain_to_send.append(b)
 
         return chain_to_send
+
+    def from_json(self, j):
+        chain = []
+        for i in range(len(j)):
+            block = Block()
+            block.from_json(j[i])
+            chain.append(block)
+
+        self.chain = chain
 
     @property
     def last_block(self):

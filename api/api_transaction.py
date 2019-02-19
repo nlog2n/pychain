@@ -96,7 +96,7 @@ def get_transactions():
 #@jwt_required
 def get_blocks():
     node = current_app.config["PYCHAIN_NODE"]
-    chain = node.blockchain.get_blocks()
+    chain = node.blockchain.json()
     response = {
         'chain': chain,
         'length': len(chain),

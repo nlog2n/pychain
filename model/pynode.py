@@ -53,11 +53,11 @@ class Node:
         for node_url in self.peer_nodes:
             try:
                 # Get their chains using a GET request
-                block = requests.get(node_url + "/pychain/api/v1/transaction/chain").content
+                chainOne = requests.get(node_url + "/pychain/api/v1/transaction/chain").content
                 # Convert the JSON object to a Python dictionary
-                block = json.loads(block)
+                chainOne = json.loads(chainOne)
                 # Add it to our list
-                other_chains.append(block)
+                other_chains.append(chainOne)
             except Exception as ex:
                 print "probing node failed: " + str(node_url)
                 # TODO: remove this node_url from my peer_nodes?
@@ -65,6 +65,11 @@ class Node:
         # If our chain isn't longest, then we store the longest chain
         longest_chain = self.blockchain.chain
         for chain in other_chains:
+            chain = chain["chain"]
+            cc = Blockchain()
+            cc.from_json(chain)
+            chain = cc.chain
+
             if len(longest_chain) < len(chain):
                 ## TODO: 这里还需要validate other chain data
                 longest_chain = chain
