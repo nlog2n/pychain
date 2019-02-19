@@ -18,12 +18,12 @@ class Block():
         定义区块链中每一个区块
         每个块都有一个 索引，一个 时间戳（Unix时间戳），一个事务列表， 一个校验(稍后详述) 和 前一个块的散列 。
     """
-    def __init__(self, index, timestamp, data, previous_hash):
+    def __init__(self, index, timestamp, data, previous_hash, hash=None):
         self.index = index
         self.timestamp = timestamp
         self.data = data # 包含 transactions, proof-of-work
         self.previous_hash = previous_hash
-        self.hash = self.hash_block()
+        self.hash = (self.hash_block() if hash is None else hash)
 
     def hash_block(self):
         sha = hasher.sha256()
@@ -38,13 +38,6 @@ class Block():
             "previous_hash": self.previous_hash,
             "hash": self.hash
         }
-
-    def from_json(self, j):
-        self.index = j['index']
-        self.timestamp = j['timestamp']
-        self.data = j['data']
-        self.previous_hash = j['previous_hash']
-        self.hash = j['hash']
 
     def __str__(self):
         return json.dumps(self.json())
