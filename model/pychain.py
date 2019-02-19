@@ -49,7 +49,8 @@ class Blockchain(object):
     def from_json(self, j):
         chain = []
         for i in range(len(j)):
-            block = Block(j['index'], j['timestamp'], j['data'], j['previous_hash'], j['hash'])
+            b = j[i]
+            block = Block(b['index'], b['timestamp'], b['data'], b['previous_hash'], b['hash'])
             chain.append(block)
 
         self.chain = chain
